@@ -55,7 +55,7 @@ def editar(id):
         flash('Álbum no encontrado')
         return redirect(url_for('home'))
     
-    return render_template('formUpdate.html', album=album)
+    return render_template('formUpdates.html', album=album)
 
 @app.route('/actualizar/<int:id>', methods=['POST'])
 def actualizar(id):
