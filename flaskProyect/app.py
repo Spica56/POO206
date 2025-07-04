@@ -1,18 +1,111 @@
-from flask import Flask, jsonify, render_template, request, url_for, flash, redirect
+
+from flask import Flask,jsonify,render_template,request,url_for,flash,redirect
 from flask_mysqldb import MySQL
 import MySQLdb
 
-app= Flask(__name__)
+app = Flask(__name__)
 
-app.config['MYSQL_HOST']= "localhost"
-app.config['MYSQL_USER']= "root"
-app.config['MYSQL_PASSWORD']= "Badillo83"
-app.config['MYSQL_DB']= "dbflask"
-#app.config['MYSQL_PORT']= 3306 //solo si se cambia el puerto
-app.secret_key='mysecretkey'
+app.config['MYSQL_HOST'] ="localhost"
+app.config['MYSQL_USER'] ="root"
+app.config['MYSQL_PASSWORD'] ="Badillo83"
+app.config['MYSQL_DB'] ="dbflask"
+#app.config['MYSQL_PORT'] =3306 // usar solo en cambio de puerto
+app.secret_key = 'mysecretkey'
 
-mysql= MySQL(app)
+mysql = MySQL(app)
 
+
+@app.route('/')
+def home():
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT * FROM tb_album')
+        consultaTodo = cursor.fetchall()
+        return render_template('formulario.html', errores={}, albums = consultaTodo)
+    
+    except Exception as e:
+        print('Error al consultar todo: ' + e)
+        return render_template('formulario.html', errores={}, albums = [])
+    finally:
+        cursor.close()
+        
+#Rura de detalle
+@app.route('/detalle/<int:id>')
+def detalle(id):
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT * FROM tb_album WHERE id = %s', (id,))
+        consultaId = cursor.fetchone()
+        return render_template('consulta.html', album = consultaId)
+    
+    except Exception as e:
+        print('Error al consultar por id: ' + e)
+        return redirect(url_for('home'))
+    finally:
+        cursor.close()
+
+@app.route('/editar/<int:id>')
+def editar(id):
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM tb_album WHERE id = %s', (id,))
+    album = cursor.fetchone()
+    cursor.close()
+    
+    if album is None:
+        flash('Álbum no encontrado')
+        return redirect(url_for('home'))
+    
+    return render_template('formUpdate.html', album=album)
+
+@app.route('/actualizar/<int:id>', methods=['POST'])
+def actualizar(id):
+    # 1. Recoger datos del formulario
+    album = request.form.get('TxtTitulo', '').strip()
+    artista = request.form.get('TxtArtista', '').strip()
+    anio = request.form.get('TxtAnio', '').strip()
+
+    # 2. Validar datos
+    errores = {}
+
+    if not album:
+        errores['TxtTitulo'] = 'El título del álbum es obligatorio'
+    if not artista:
+        errores['TxtArtista'] = 'El artista es obligatorio'
+    if not anio:
+        errores['TxtAnio'] = 'El Año es obligatorio'
+    else:
+        try:
+            anio_int = int(anio)
+            if anio_int < 1800 or anio_int > 2030:
+                errores['TxtAnio'] = 'Ingresa un año válido (entre 1800 y 2030)'
+        except ValueError:
+            errores['TxtAnio'] = 'El año debe ser un número válido'
+
+    # 3. Si hay errores, volver al formulario con errores
+    if errores:
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT * FROM tb_album WHERE id = %s', (id,))
+        album_data = cursor.fetchone()
+        cursor.close()
+        return render_template('formUpdate.html', album=album_data, errores=errores)
+
+    # 4. Si no hay errores, actualizar en la base de datos
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute("""
+            UPDATE tb_album
+            SET album = %s, artista = %s, anio = %s
+            WHERE id = %s
+        """, (album, artista, anio_int, id))
+        mysql.connection.commit()
+        flash('Álbum actualizado en la BD')
+    except Exception as e:
+        mysql.connection.rollback()
+        flash(f'Error al actualizar: {str(e)}', 'danger')
+    finally:
+        cursor.close()
+
+    return redirect(url_for('home'))
 #ruta para probar la conección a mysql
 @app.route('/DBCheck')
 def DB_check():
@@ -23,9 +116,6 @@ def DB_check():
     except MySQLdb.MySQLError as e:
         return jsonify( {'status':'error','message':str(e)} ), 200
 
-@app.route('/')
-def home():
-    return render_template('formulario.html')
 
 @app.route('/consulta')
 def consulta():
@@ -68,5 +158,6 @@ def guardar():
             cursor.close()
     return render_template('formulario.html', errores= errores)
 
+
 if __name__ == '__main__':
-    app.run(port= 3000, debug= True)
+    app.run(port=3000, debug=True)

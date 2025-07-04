@@ -1,12 +1,34 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta</title>
+    <title> Consulta </title>
 </head>
 <body>
-    <h2> Vista de consulta</h2>
-    <a href="/"> Abrir Vista Formulario</a>
+
+    <table>
+        <thead>
+            <tr>
+                <td>ID:</td>
+                <td>Album:</td>
+                <td>Artista:</td>
+                <td>Año de Publicacion:</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>{{ album.0 }}</td>
+                <td>{{ album.1 }}</td>
+                <td>{{ album.2 }}</td>
+                <td>{{ album.3 }}</td>
+                <td> <a href="/editar/{{ album.0 }}">Actualizar </a></td>
+                <td> <a href="#">Eliminar </a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="/"> Regresar al Formulario</a>
 </body>
 </html>
