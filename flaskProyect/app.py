@@ -19,7 +19,7 @@ mysql = MySQL(app)
 def home():
     try:
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM tb_album')
+        cursor.execute('SELECT * FROM tb_album WHERE state= 1')
         consultaTodo = cursor.fetchall()
         return render_template('formulario.html', errores={}, albums = consultaTodo)
     
@@ -157,6 +157,43 @@ def guardar():
         finally:
             cursor.close()
     return render_template('formulario.html', errores= errores)
+
+@app.route('/eliminar/<int:id>', methods=['POST'])
+def eliminar(id):
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('UPDATE tb_album SET state = 0 WHERE id = %s', (id,))
+        mysql.connection.commit()
+        flash('Álbum eliminado correctamente')
+    except Exception as e:
+        print('Error al eliminar el álbum: ' + str(e))
+        flash('Error al eliminar el álbum')
+    finally:
+        cursor.close()
+    
+    return redirect(url_for('home'))
+
+
+@app.route('/confirmarEliminar/<int:id>')
+def confirmarEliminar(id):
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT * FROM tb_album WHERE id = %s', (id,))
+        album = cursor.fetchone()
+        if album is None:
+            flash("Álbum no encontrado")
+            return redirect(url_for('home'))
+        return render_template('confirmDel.html', album=album)
+    except Exception as e:
+        print('Error al cargar confirmación: ' + str(e))
+        flash("Error al intentar eliminar")
+        return redirect(url_for('home'))
+    finally:
+        cursor.close()
+
+    
+    return redirect(url_for('home'))
+
 
 
 if __name__ == '__main__':
