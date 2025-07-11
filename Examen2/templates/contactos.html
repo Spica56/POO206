@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contactos</title>
+</head>
+<body>
+    <h2> Vista de contactos</h2>
+    <br>
+    <br>
+    <br>
+
+        {% with mensajes= get_flashed_messages()%}
+            {% if mensajes%}
+                {% for msj in mensajes%}
+                    <h4>{{ msj }}</h4>
+                {% endfor %}
+            {% endif %}
+        {% endwith%}
+
+    <form action="/guardarContacto" method="post">
+        <input type="text" name="txtNombre" placeholder="Nombre" value="{{ request.form.txtNombre}}">
+        {% if errores and errores.txtNombre %}
+        <p style="color:red">{{ errores.txtNombre }}</p>
+        {% endif %}
+        <input type="text" name="txtCorreo" placeholder="Correo" value="{{ request.form.txtCorreo}}">
+        {% if errores and errores.txtCorreo %}
+        <p style="color:red">{{ errores.txtCorreo }}</p>
+        {% endif %}
+        <input type="text" name="txtTelefono" placeholder="Telefono" value="{{ request.form.txtTelefono}}">
+        {% if errores and errores.txtTelefono %}
+        <p style="color:red">{{ errores.txtTelefono }}</p>
+        {% endif %}
+        <input type="number" name="txtEdad" placeholder="Edad" value="{{ request.form.txtEdad}}">
+        {% if errores and errores.txtEdad %}
+        <p style="color:red">{{ errores.txtEdad }}</p>
+        {% endif %}
+        <button type="submit"> Guardar Contacto</button>
+    </form>
+
+    <br>
+
+    <h2 style="color:blueviolet"> Contactos guardados</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <td>ID:</td>
+                <td>Contacto:</td>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {%for cont in contactos%}
+            <tr>
+                <td>{{ cont.0 }}</td>
+                <td> <a href="/detalle/{{ cont.0 }}"> {{ cont.1 }} </a> </td>
+            </tr>
+            {%endfor%}
+
+        </tbody>
+    </table>
+</body>
+</html>

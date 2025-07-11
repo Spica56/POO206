@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Consulta </title>
+</head>
+<body>
+
+    <table>
+        <thead>
+            <tr>
+                <td>ID:</td>
+                <td>Album:</td>
+                <td>Artista:</td>
+                <td>Año de Publicacion:</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>{{ contacto.0 }}</td>
+                <td>{{ contacto.1 }}</td>
+                <td>{{ contacto.2 }}</td>
+                <td>{{ contacto.3 }}</td>
+                <td>{{ contacto.4 }}</td>
+                <td> <a href="/editar/{{ contacto.0 }}">Actualizar </a></td>
+                <td> <a href="/confirmarEliminar/{{ contacto.0 }}">Eliminar</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="/"> Regresar a contactos</a>
+</body>
+</html>

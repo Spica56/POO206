@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <h2 style="color:blueviolet"> Confirmar Eliminación</h2>
+</head>
+<body>
+    <h2 style="color:red;">¿Estás seguro de que quieres eliminar este contacto?</h2>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Telefono</th>
+            <th>Edad</th>
+        </tr>
+        <tr>
+            <td>{{ contacto.0 }}</td>
+            <td>{{ contacto.1 }}</td>
+            <td>{{ contacto.2 }}</td>
+            <td>{{ contacto.3 }}</td>
+            <td>{{ contacto.4 }}</td>
+        </tr>
+    </table>
+
+    <form action="{{ url_for('eliminar', id=contacto.0) }}" method="post">
+        <button type="submit">Sí, eliminar</button>
+        <a href="{{ url_for('home') }}">Cancelar</a>
+    </form>
+</body>
+</html>
