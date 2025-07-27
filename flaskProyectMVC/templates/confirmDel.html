@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <h2 style="color:blueviolet"> Confirmar Eliminación</h2>
+</head>
+<body>
+    <h2 style="color:red;">¿Estás seguro de que quieres eliminar este álbum?</h2>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Artista</th>
+            <th>Año</th>
+        </tr>
+        <tr>
+            <td>{{ album.0 }}</td>
+            <td>{{ album.1 }}</td>
+            <td>{{ album.2 }}</td>
+            <td>{{ album.3 }}</td>
+        </tr>
+    </table>
+
+    <form action="{{ url_for('eliminar', id=album.0) }}" method="post">
+        <button type="submit">Sí, eliminar</button>
+        <a href="{{ url_for('home') }}">Cancelar</a>
+    </form>
+</body>
+</html>
