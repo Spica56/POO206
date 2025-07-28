@@ -4,4 +4,4 @@ class Config:
     MYSQL_PASSWORD ="Badillo83"
     MYSQL_DB ="dbflask"
     #MYSQL_PORT =3306 // usar solo en cambio de puerto
-    SECRET_KAY = 'mysecretkey'
+    SECRET_KEY = 'mysecretkey'

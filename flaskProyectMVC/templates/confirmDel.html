@@ -23,9 +23,9 @@
         </tr>
     </table>
 
-    <form action="{{ url_for('eliminar', id=album.0) }}" method="post">
+    <form action="{{ url_for('albums.eliminar', id=album.0) }}" method="post">
         <button type="submit">Sí, eliminar</button>
-        <a href="{{ url_for('home') }}">Cancelar</a>
+        <a href="{{ url_for('albums.home') }}">Cancelar</a>
     </form>
 </body>
 </html>
