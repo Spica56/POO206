@@ -1,0 +1,67 @@
+body{
+    background-color: #172030;
+}
+
+.titulo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: bold;
+    margin-right: 20px;
+    color: #B6ECFE;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.form-container {
+    background-image: url("../IMG/disco_fondo.jpg");
+    background-size: cover;
+    background-position: center;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    color: white;
+}
+
+.list-container {
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    color: white;
+}
+
+.list-table {
+    background-color: #333c4d;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+.form-transparent {
+    background-color: rgba(255, 255, 255, 0.15); /* fondo semitransparente */
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 15px;
+}
+
+.form-transparent input[type="text"],
+.form-transparent input[type="number"] {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid white;
+    border-radius: 10px;
+    color: white;
+    padding: 0.5rem 1rem;
+ }
+
+.form-transparent input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.form-transparent input:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+}

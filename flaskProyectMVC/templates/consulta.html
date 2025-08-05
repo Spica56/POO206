@@ -1,34 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Consulta </title>
-</head>
-<body>
+{% extends 'plantilla.html' %}
 
-    <table>
-        <thead>
-            <tr>
-                <td>ID:</td>
-                <td>Album:</td>
-                <td>Artista:</td>
-                <td>Año de Publicacion:</td>
-            </tr>
-        </thead>
+{% block body %}
+<div class="row m-1">
+    <div class="col-12">
+        <h2 class="display-4 mt-5 mb-5 titulo">Vista de Consulta</h2>
+        <a href="/" class="mx-3">Regresar al Formulario</a>
 
-        <tbody>
-            <tr>
-                <td>{{ album.0 }}</td>
-                <td>{{ album.1 }}</td>
-                <td>{{ album.2 }}</td>
-                <td>{{ album.3 }}</td>
-                <td> <a href="/editar/{{ album.0 }}">Actualizar </a></td>
-                <td> <a href="/confirmar_eliminar/{{ album.0 }}">Eliminar</a></td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="/"> Regresar al Formulario</a>
-</body>
-</html>
+        <div class="table-responsive mt-4 ms-3" style="max-width: 100%;">
+            <table class="table table-striped table-hover text-start align-middle w-auto">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Álbum</th>
+                        <th>Artista</th>
+                        <th>Año de Publicación</th>
+                        <th colspan="2">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ album.0 }}</td>
+                        <td>{{ album.1 }}</td>
+                        <td>{{ album.2 }}</td>
+                        <td>{{ album.3 }}</td>
+                        <td><a class="btn btn-warning btn-sm" href="/editar/{{ album.0 }}">Actualizar</a></td>
+                        <td><a class="btn btn-danger btn-sm" href="/confirmar_eliminar/{{ album.0 }}">Eliminar</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
